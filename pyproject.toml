@@ -11,6 +11,7 @@ fastapi = "^0.104.1"
 sqlalchemy = "^2.0.22"
 pytest = "^7.4.3"
 uvicorn = {extras = ["standard"], version = "^0.23.2"}
+pydantic-settings = "^2.0.3"
 
 
 [build-system]
