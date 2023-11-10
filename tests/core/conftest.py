@@ -1,6 +1,5 @@
 import asyncio
 import os
-from uuid import uuid4
 
 import pytest
 import pytest_asyncio
@@ -44,7 +43,7 @@ async def async_client(running_app) -> AsyncClient:
         yield client
 
 
-@pytest_asyncio.fixture(scope="session")
+@pytest_asyncio.fixture
 async def test_db():
     _is_local_db_used(config.DB_URL)
 
@@ -74,7 +73,7 @@ def _is_local_db_used(database_url: str):
             os.unlink(database_url.split("sqlite:///")[-1])
 
 
-@pytest_asyncio.fixture(scope="session")
+@pytest_asyncio.fixture
 async def test_session(test_db):
     async_session_factory: async_sessionmaker = async_sessionmaker(
         bind=test_db,
