@@ -9,10 +9,18 @@ readme = "README.md"
 python = "^3.11"
 fastapi = "^0.104.1"
 sqlalchemy = "^2.0.22"
-pytest = "^7.4.3"
 uvicorn = {extras = ["standard"], version = "^0.23.2"}
 pydantic-settings = "^2.0.3"
+aiomysql = "^0.2.0"
+httpx = "^0.25.0"
+cryptography = "^41.0.5"
 
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pytest-asyncio = "^0.21.1"
+asgi-lifespan = "^2.1.0"
+aiosqlite = "^0.19.0"
 
 [build-system]
 requires = ["poetry-core"]
