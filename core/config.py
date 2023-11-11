@@ -25,6 +25,7 @@ class LocalConfig(Config):
 
 
 class TestConfig(Config):
+    ENV: str = "test"
     DB_URL: str = f"sqlite+aiosqlite:///:memory:"
 
 

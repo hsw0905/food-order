@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from starlette.types import ASGIApp, Scope, Receive, Send
 
 from core.db.sqlalchemy import session

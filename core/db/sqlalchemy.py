@@ -11,7 +11,7 @@ engine: AsyncEngine = create_async_engine(
     pool_pre_ping=config.DB_PRE_PING
 )
 
-async_session_factory = async_sessionmaker(bind=engine, autoflush=False, autocummit=False)
+async_session_factory = async_sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
 session: async_scoped_session = async_scoped_session(
     session_factory=async_session_factory,
