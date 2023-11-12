@@ -1,20 +1,14 @@
-import asyncio
-
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine, async_sessionmaker, async_scoped_session, \
-    AsyncSession
-from sqlalchemy.orm import declarative_base, DeclarativeMeta
+from sqlalchemy import Engine, create_engine
+from sqlalchemy.orm import declarative_base, DeclarativeMeta, sessionmaker
 
 from core.config import config
 
-engine: AsyncEngine = create_async_engine(
+engine: Engine = create_engine(
     url=config.DB_URL,
     echo=config.DB_ECHO,
     pool_pre_ping=config.DB_PRE_PING
 )
 
-session: async_scoped_session[AsyncSession] = async_scoped_session(
-    session_factory=async_sessionmaker(bind=engine, autoflush=False, autocommit=False),
-    scopefunc=asyncio.current_task
-)
+session_factory = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
 Base: DeclarativeMeta = declarative_base()

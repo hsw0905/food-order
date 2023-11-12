@@ -1,6 +1,6 @@
 from sqlalchemy import select
 from sqlalchemy.exc import DatabaseError
-from sqlalchemy.ext.asyncio import async_scoped_session
+from sqlalchemy.orm import Session
 
 from app.exceptions.base_exception import InternalServerErrorException
 from app.models.user import User
@@ -10,25 +10,25 @@ logger = logger_.getLogger(__name__)
 
 
 class UserRepository:
-    def __init__(self, async_session: async_scoped_session):
-        self._session = async_session
+    def __init__(self, session: Session):
+        self._session = session
 
-    async def save(self, email: str, password: str) -> None:
+    def save(self, email: str, password: str) -> None:
         user = User(email=email, password=password)
 
         try:
             self._session.add(user)
-            await self._session.commit()
+            self._session.commit()
         except DatabaseError as e:
             logger.error(f"[UserRepository][save]: error: {e.detail}")
-            await self._session.rollback()
+            self._session.rollback()
             raise InternalServerErrorException("서버 내부 오류")
 
-    async def find_by_id(self, user_id):
+    def find_by_id(self, user_id) -> User:
         statement = (
             select(User).where(User.id == user_id)
         )
 
-        result = await self._session.execute(statement)
+        return self._session.execute(statement).scalar()
 
-        return result.scalar()
+

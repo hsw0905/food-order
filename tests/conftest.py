@@ -1,21 +1,11 @@
-import asyncio
-import os
-
 import pytest
-import pytest_asyncio
-from asgi_lifespan import LifespanManager
 from fastapi import FastAPI
-from httpx import AsyncClient
-from sqlalchemy.ext.asyncio import AsyncConnection, \
-    AsyncTransaction, AsyncEngine, create_async_engine, async_scoped_session, async_sessionmaker, AsyncSession
-from uvloop import new_event_loop
+from sqlalchemy import Engine, create_engine, Connection, Transaction
+from sqlalchemy.orm import sessionmaker
 
 from app import create_app
-from core.config import config, TestConfig
-from core.db.sqlalchemy import Base, engine, session
-from core.utils.log_helper import logger_
-
-logger = logger_.getLogger(__name__)
+from core.config import TestConfig
+from core.db.sqlalchemy import Base
 
 
 @pytest.fixture(scope="session")
@@ -23,59 +13,34 @@ def app() -> FastAPI:
     return create_app()
 
 
-@pytest_asyncio.fixture(scope="session")
-async def running_app(app):
-    async with LifespanManager(app=app):
-        yield app
-
-
-@pytest.fixture(scope="session")
-def event_loop():
-    """pytest->event_loop fixture를 override 하기 위한 코드"""
-    loop = new_event_loop()
-    yield loop
-    loop.close()
-
-
-@pytest_asyncio.fixture(scope="session")
-async def async_client(running_app) -> AsyncClient:
-    async with AsyncClient(app=running_app, base_url="http://test") as client:
-        yield client
-
-
-@pytest_asyncio.fixture
-async def test_db():
+@pytest.fixture
+def test_db():
     test_config = TestConfig()
 
-    test_engine: AsyncEngine = create_async_engine(
+    test_engine: Engine = create_engine(
         url=test_config.DB_URL,
         echo=test_config.DB_ECHO,
-        pool_pre_ping=test_config.DB_PRE_PING
+        pool_pre_ping=test_config.DB_PRE_PING,
+        connect_args={"check_same_thread": False}
     )
 
     yield test_engine
 
-    await test_engine.dispose()
+    test_engine.dispose()
 
 
-@pytest_asyncio.fixture
-async def test_session(test_db):
-    test_session: async_scoped_session[AsyncSession] = async_scoped_session(
-        session_factory=async_sessionmaker(bind=test_db, autoflush=False, autocommit=False, expire_on_commit=False),
-        scopefunc=asyncio.current_task
-    )
+@pytest.fixture
+def test_session(test_db):
+    session_factory = sessionmaker(bind=test_db, autoflush=False, autocommit=False)
 
-    connection: AsyncConnection = await test_db.connect()
-    transaction: AsyncTransaction = await connection.begin()
+    connection: Connection = test_db.connect()
+    transaction: Transaction = connection.begin()
 
-    await connection.run_sync(Base.metadata.drop_all)
-    await connection.run_sync(Base.metadata.create_all)
+    Base.metadata.drop_all(connection)
+    Base.metadata.create_all(connection)
 
-    try:
-        yield test_session
-    except Exception as e:
-        logger.error(f"session rollback due to error: {e}")
-    finally:
-        await transaction.rollback()
-        await connection.close()
-        await test_session.remove()
+    with session_factory() as session:
+        yield session
+
+    transaction.rollback()
+    connection.close()
