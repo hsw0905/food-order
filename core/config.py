@@ -10,29 +10,29 @@ class Config(BaseSettings):
     APP_HOST: str = "0.0.0.0"
     APP_PORT: int = 8000
 
-    DB_URL: str = f"mysql+pymysql://root:1234@localhost:3306/food-order"
+    DB_URL: str = f"mysql+aiomysql://root:1234@localhost:3306/food-order"
     DB_ECHO: bool = True
     DB_PRE_PING: bool = True
 
 
 class DevelopmentConfig(Config):
     ENV: str = "development"
-    DB_URL: str = f"mysql+pymysql://root:1234@localhost:3306/food-order"
+    DB_URL: str = f"mysql+aiomysql://root:1234@localhost:3306/food-order"
 
 
 class LocalConfig(Config):
-    DB_URL: str = f"mysql+pymysql://root:1234@localhost:3306/food-order"
+    DB_URL: str = f"mysql+aiomysql://root:1234@localhost:3306/food-order"
 
 
 class TestConfig(Config):
     ENV: str = "test"
-    DB_URL: str = f"sqlite:///:memory:"
+    DB_URL: str = f"sqlite+aiosqlite:///:memory:"
 
 
 class ProductionConfig(Config):
     ENV: str = "production"
     DEBUG: bool = False
-    DB_URL: str = f"mysql+pymysql://root:1234@localhost:3306/food-order"
+    DB_URL: str = f"mysql+aiomysql://root:1234@localhost:3306/food-order"
     DB_ECHO: bool = False
 
 
