@@ -33,6 +33,7 @@ class ProductionConfig(Config):
     ENV: str = "production"
     DEBUG: bool = False
     DB_URL: str = f"mysql+aiomysql://root:1234@localhost:3306/food-order"
+    DB_ECHO: bool = False
 
 
 def get_config():
