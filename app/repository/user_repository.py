@@ -2,9 +2,9 @@ from sqlalchemy import select
 from sqlalchemy.exc import DatabaseError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.exceptions.base_exception import InternalServerErrorException
-from app.models.user import User
-from core.utils.log_helper import logger_
+from app.entity.user import User
+from app.exception.base_exception import InternalServerErrorException
+from core.util.log_helper import logger_
 
 logger = logger_.getLogger(__name__)
 

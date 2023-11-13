@@ -1,11 +1,11 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.repositories.user_repository import UserRepository
+from app.repository.user_repository import UserRepository
 
 
 @pytest.mark.asyncio
-async def test_save(test_session: AsyncSession) -> None:
+async def test_should_save_user(test_session: AsyncSession) -> None:
     user_repository = UserRepository(test_session)
     test_email = "harry@example.com"
     test_password = "1234"

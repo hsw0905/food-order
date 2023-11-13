@@ -1,4 +1,4 @@
-"""init user model
+"""init user entity
 
 Revision ID: 9dceb004e01b
 Revises:

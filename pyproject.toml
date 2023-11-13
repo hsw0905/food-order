@@ -15,8 +15,8 @@ omit = [
   ".mypy_cache/**/*",
   ".pytest_cache/**/*",
   "main.py",
-  "tests/*",
-  "tests/**/*"
+  "test/*",
+  "test/**/*"
 ]
 source = ["app"]
 

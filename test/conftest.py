@@ -16,7 +16,7 @@ from sqlalchemy.ext.asyncio import (
 from uvloop import Loop, new_event_loop
 
 from app import create_app
-from app.models.base_entity import Base
+from app.entity.base_entity import Base
 from core.config import TestConfig
 
 
