@@ -17,7 +17,7 @@ from uvloop import Loop, new_event_loop
 
 from app import create_app
 from app.entity.base_entity import Base
-from core.config import TestConfig
+from core.config import config
 
 
 @pytest.fixture(scope="session")
@@ -47,12 +47,10 @@ async def async_client(running_app: FastAPI) -> AsyncGenerator[AsyncClient, None
 
 @pytest_asyncio.fixture
 async def test_db() -> AsyncGenerator[AsyncEngine, None]:
-    test_config = TestConfig()
-
     test_engine: AsyncEngine = create_async_engine(
-        url=test_config.DB_URL,
-        echo=test_config.DB_ECHO,
-        pool_pre_ping=test_config.DB_PRE_PING,
+        url=config.DB_URL,
+        echo=config.DB_ECHO,
+        pool_pre_ping=config.DB_PRE_PING,
     )
 
     yield test_engine

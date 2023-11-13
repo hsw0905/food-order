@@ -124,6 +124,6 @@ jobs:
 
       - name: Run Pytest
         run: |
-          poetry run coverage run -m pytest
+          ENV=development DB_URL=mysql+aiomysql://root:1234@localhost:3306/food-order poetry run coverage run -m pytest
           poetry run coverage report -m
           poetry run coverage html

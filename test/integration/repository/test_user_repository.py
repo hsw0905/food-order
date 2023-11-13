@@ -5,7 +5,7 @@ from app.repository.user_repository import UserRepository
 
 
 @pytest.mark.asyncio
-async def test_should_save_user(test_session: AsyncSession) -> None:
+async def test_should_save_users(test_session: AsyncSession) -> None:
     user_repository = UserRepository(test_session)
     test_email = "harry@example.com"
     test_password = "1234"
