@@ -563,6 +563,17 @@ files = [
 ]
 
 [[package]]
+name = "inject"
+version = "5.1.0"
+description = "Python dependency injection framework."
+optional = false
+python-versions = "*"
+files = [
+    {file = "inject-5.1.0-py2.py3-none-any.whl", hash = "sha256:2375e4b3852eb9243e4f736c7c3a9ec723ad8765a23d16cb1e89c0ea425e1433"},
+    {file = "inject-5.1.0.tar.gz", hash = "sha256:05befd98019d80c0af28410f22df091c4eaddd6cbc427b2596dbdad99c03972c"},
+]
+
+[[package]]
 name = "isort"
 version = "5.12.0"
 description = "A Python utility / library to sort Python imports."
@@ -1534,4 +1545,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "4a77dca5072ee2921f5d43994dad743fdf9eb054589e8d8282bd7b5f8d0b3eeb"
+content-hash = "ca298caf2ab8d72efc5dc2a028051d8b2e778fe3cb212db93173e5843c1356ef"
