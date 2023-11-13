@@ -1,19 +1,14 @@
-from sqlalchemy import Column, BigInteger, Integer, String, Boolean
+from sqlalchemy import Boolean, String
+from sqlalchemy.orm import mapped_column
 
-from core.db.mixins import TimestampMixin
-from core.db.sqlalchemy import Base
+from app.models.base_entity import Base
+from app.models.base_time_entity import BaseTimeEntity
 
 
-class User(Base, TimestampMixin):
+class User(Base, BaseTimeEntity):
     __tablename__ = "users"
 
-    id = Column(
-        BigInteger().with_variant(Integer, "sqlite"),
-        primary_key=True,
-        nullable=False
-    )
-    email = Column(String(100), nullable=False)
-    password = Column(String(100), nullable=False)
-    is_active = Column(Boolean, nullable=False, default=False)
-    is_admin = Column(Boolean, nullable=False, default=False)
-
+    email = mapped_column(String(100), nullable=False)
+    password = mapped_column(String(100), nullable=False)
+    is_active = mapped_column(Boolean, nullable=False, default=False)
+    is_admin = mapped_column(Boolean, nullable=False, default=False)

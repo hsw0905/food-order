@@ -36,7 +36,7 @@ class ProductionConfig(Config):
     DB_ECHO: bool = False
 
 
-def get_config():
+def get_config() -> Config:
     env = os.getenv("ENV", "local")
     config_type = {
         "development": DevelopmentConfig(),

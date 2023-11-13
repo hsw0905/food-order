@@ -9,7 +9,7 @@ def create_app() -> FastAPI:
         app_host=config.APP_HOST,
         app_port=config.APP_PORT,
         docs_url=None if config.ENV == "production" else "/docs",
-        redoc_url=None if config.ENV == "production" else "/redoc"
+        redoc_url=None if config.ENV == "production" else "/redoc",
     )
 
     print(f"\n💌💌💌FastAPI Config is '{config.ENV}'")

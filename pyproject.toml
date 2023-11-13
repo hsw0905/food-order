@@ -1,29 +1,65 @@
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
+
+[project]
+requires-python = "3.11"
+
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
+
+[tool.coverage.run]
+branch = true
+omit = [
+  ".mypy_cache/**/*",
+  ".pytest_cache/**/*",
+  "main.py",
+  "tests/*",
+  "tests/**/*"
+]
+source = ["app"]
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+disallow_subclassing_any = false
+exclude = "fabfile"
+ignore_missing_imports = true
+implicit_reexport = true
+plugins = "pydantic.mypy"
+python_version = "3.11"
+show_error_codes = true
+strict = true
+
 [tool.poetry]
-name = "food-order"
-version = "0.1.0"
-description = ""
 authors = ["hsw0905 <hsw0905@gmail.com>"]
+description = ""
+name = "food-order"
 readme = "README.md"
+version = "0.1.0"
 
 [tool.poetry.dependencies]
-python = "^3.11"
-fastapi = "^0.104.1"
-sqlalchemy = "^2.0.22"
-uvicorn = {extras = ["standard"], version = "^0.23.2"}
-pydantic-settings = "^2.0.3"
-cryptography = "^41.0.5"
-alembic = "^1.12.1"
-pydantic = "^2.4.2"
-httpx = "^0.25.1"
 aiomysql = "^0.2.0"
-
+alembic = "^1.12.1"
+cryptography = "^41.0.5"
+fastapi = "^0.104.1"
+httpx = "^0.25.1"
+pydantic = "^2.4.2"
+pydantic-settings = "^2.0.3"
+python = "^3.11"
+sqlalchemy = "^2.0.23"
+uvicorn = {extras = ["standard"], version = "^0.23.2"}
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.4.3"
-pytest-asyncio = "^0.21.1"
 aiosqlite = "^0.19.0"
 asgi-lifespan = "^2.1.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+black = "^23.11.0"
+coverage = "^7.3.2"
+isort = "^5.12.0"
+mypy = "^1.7.0"
+pytest = "^7.4.3"
+pytest-asyncio = "^0.21.1"
+toml-sort = "^0.23.1"
+types-redis = "^4.6.0.10"

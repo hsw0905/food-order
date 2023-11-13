@@ -24,12 +24,9 @@ class UserRepository:
             await self._session.rollback()
             raise InternalServerErrorException("서버 내부 오류")
 
-    async def find_by_id(self, user_id) -> User:
-        statement = (
-            select(User).where(User.id == user_id)
-        )
+    async def find_by_id(self, user_id: int) -> User | None:
+        statement = select(User).where(User.id == user_id)
 
         result = await self._session.execute(statement)
 
         return result.scalar()
-
