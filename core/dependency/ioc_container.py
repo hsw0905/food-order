@@ -1,16 +1,12 @@
 from inject import Binder, clear_and_configure
 
 from app.repository.user_repository import UserRepository
+from core.db.sqlalchemy import async_session_factory
 
 
 def configure_app(binder: Binder) -> None:
-    service_to_bind = [
-        UserRepository
-    ]
-
-    for service in service_to_bind:
-        binder.bind_to_provider(service, service)
+    binder.bind(UserRepository, UserRepository(session=async_session_factory()))
 
 
-def init_provider():
+def init_provider() -> None:
     clear_and_configure(configure_app)
