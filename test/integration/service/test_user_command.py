@@ -2,9 +2,9 @@ import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, async_scoped_session
 
 from app.controller.dto.request.user_request import CreateUserDto
-from core.exception.base_exception import InvalidRequestException
 from app.repository.user_repository import UserRepository
 from app.service.user.user_command import CreateUserCommand
+from core.exception.base_exception import InvalidRequestException
 
 
 @pytest.mark.asyncio

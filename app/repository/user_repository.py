@@ -2,8 +2,8 @@ from sqlalchemy import select
 from sqlalchemy.exc import DatabaseError
 
 from app.entity.user import User
-from core.exception.base_exception import InternalServerErrorException
 from core.db.sqlalchemy import session
+from core.exception.base_exception import InternalServerErrorException
 from core.util.log_helper import logger_
 
 logger = logger_.getLogger(__name__)

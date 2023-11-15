@@ -1,8 +1,8 @@
 import inject
 
 from app.controller.dto.request.user_request import CreateUserDto
-from core.exception.base_exception import InvalidRequestException
 from app.repository.user_repository import UserRepository
+from core.exception.base_exception import InvalidRequestException
 
 
 class CreateUserCommand:
