@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from core.config import config
+from core.dependency.ioc_container import init_provider
 
 
 def create_app() -> FastAPI:
@@ -11,6 +12,8 @@ def create_app() -> FastAPI:
         docs_url=None if config.ENV == "production" else "/docs",
         redoc_url=None if config.ENV == "production" else "/redoc",
     )
+
+    init_provider()
 
     print(f"\n💌💌💌FastAPI Config is '{config.ENV}'")
 

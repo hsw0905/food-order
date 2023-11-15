@@ -1,3 +1,4 @@
+import os
 from typing import AsyncGenerator, Generator
 
 import pytest
@@ -7,17 +8,15 @@ from fastapi import FastAPI
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import (
     AsyncConnection,
-    AsyncEngine,
     AsyncSession,
     AsyncTransaction,
-    async_sessionmaker,
-    create_async_engine,
+    async_scoped_session,
 )
 from uvloop import Loop, new_event_loop
 
 from app import create_app
-from app.entity.base_entity import Base
-from core.config import config
+from app.entity.common.base_entity import Base
+from core.db.sqlalchemy import engine, session
 
 
 @pytest.fixture(scope="session")
@@ -45,41 +44,39 @@ async def async_client(running_app: FastAPI) -> AsyncGenerator[AsyncClient, None
         yield client
 
 
-@pytest_asyncio.fixture
-async def test_db() -> AsyncGenerator[AsyncEngine, None]:
-    test_engine: AsyncEngine = create_async_engine(
-        url=config.DB_URL,
-        echo=config.DB_ECHO,
-        pool_pre_ping=config.DB_PRE_PING,
-    )
-
-    yield test_engine
-
-    await test_engine.dispose()
+def is_sqlite_used(database_url: str) -> bool:
+    if ":memory:" in database_url:
+        return True
+    return False
 
 
-@pytest.fixture
-def test_session_factory(
-    test_db: AsyncEngine,
-) -> Generator[async_sessionmaker[AsyncSession], None, None]:
-    session_factory = async_sessionmaker(
-        bind=test_db, autoflush=False, autocommit=False
-    )
-    yield session_factory
+def is_local_db_used(database_url: str) -> bool:
+    if "localhost" in database_url:
+        return True
+    return False
+
+
+def _is_local_db_used(database_url: str) -> None:
+    """
+    local db를 사용하면 memory db 삭제
+    """
+    if ":memory:" not in database_url:
+        if os.path.exists(database_url.split("sqlite+aiosqlite:///")[-1]):  # :memory:
+            os.unlink(database_url.split("sqlite+aiosqlite:///")[-1])
 
 
 @pytest_asyncio.fixture
-async def test_session(
-    test_db: AsyncEngine, test_session_factory: async_sessionmaker[AsyncSession]
-) -> AsyncGenerator[AsyncSession, None]:
-    connection: AsyncConnection = await test_db.connect()
+async def test_session() -> AsyncGenerator[async_scoped_session[AsyncSession], None]:
+    _is_local_db_used(str(engine.url))
+
+    connection: AsyncConnection = await engine.connect()
     transaction: AsyncTransaction = await connection.begin()
 
-    await connection.run_sync(Base.metadata.drop_all)
-    await connection.run_sync(Base.metadata.create_all)
+    if is_sqlite_used(str(engine.url)) or is_local_db_used(str(engine.url)):
+        await connection.run_sync(Base.metadata.drop_all)
+        await connection.run_sync(Base.metadata.create_all)
 
-    async with test_session_factory() as session:
-        yield session
+    yield session
 
     await transaction.rollback()
     await connection.close()
