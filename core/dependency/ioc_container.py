@@ -1,6 +1,6 @@
 from inject import Binder, clear_and_configure
 
-from app.repository.user_repository import UserRepository
+from app.user.repository.user_repository import UserRepository
 
 
 def configure_app(binder: Binder) -> None:

@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.exc import DatabaseError
 
-from app.entity.user import User
+from app.user.entity.user_entity import User
 from core.database.sqlalchemy import session
 from core.exception.base_exception import InternalServerErrorException
 from core.util.log_helper import logger_

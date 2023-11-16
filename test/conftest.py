@@ -15,7 +15,7 @@ from sqlalchemy.ext.asyncio import (
 from uvloop import Loop, new_event_loop
 
 from app import create_app
-from app.entity.common.base_entity import Base
+from app.common.entity.base_entity import Base
 from core.database.sqlalchemy import engine, session
 
 

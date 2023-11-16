@@ -1,11 +1,11 @@
 import inject
 
-from app.controller.dto.request.user_request import CreateUserDto
-from app.repository.user_repository import UserRepository
+from app.user.dto.v1.request.user_request import CreateUserDto
+from app.user.repository.user_repository import UserRepository
 from core.exception.base_exception import InvalidRequestException
 
 
-class CreateUserCommand:
+class CreateUserService:
     @inject.autoparams()
     def __init__(self, user_repo: UserRepository) -> None:
         self._user_repo = user_repo

@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, async_scoped_session
 
-from app.repository.user_repository import UserRepository
+from app.user.repository.user_repository import UserRepository
 
 
 @pytest.mark.asyncio
