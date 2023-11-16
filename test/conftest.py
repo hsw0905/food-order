@@ -16,7 +16,7 @@ from uvloop import Loop, new_event_loop
 
 from app import create_app
 from app.entity.common.base_entity import Base
-from core.db.sqlalchemy import engine, session
+from core.database.sqlalchemy import engine, session
 
 
 @pytest.fixture(scope="session")
