@@ -123,7 +123,8 @@ jobs:
         run: poetry install
 
       - name: Create All Tables
-        run: alembic upgrade head
+        run: |
+          alembic upgrade head
 
       - name: Run Pytest
         run: |
