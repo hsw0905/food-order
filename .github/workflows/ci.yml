@@ -124,7 +124,7 @@ jobs:
 
       - name: Create All Tables
         run: |
-          alembic upgrade head
+          poetry run alembic upgrade head
 
       - name: Run Pytest
         run: |
