@@ -5,7 +5,7 @@ volumes:
 
 services:
   mysql:
-    image: mysql:latest
+    image: mysql:8.2.0
     container_name: food-order
     volumes:
       - test_volume:/var/lib/data
@@ -19,6 +19,6 @@ services:
       - --collation-server=utf8mb4_unicode_ci
 
   redis:
-    image: redis:latest
+    image: redis:7.2
     ports:
       - "6379:6379"

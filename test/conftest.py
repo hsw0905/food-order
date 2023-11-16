@@ -50,12 +50,6 @@ def is_sqlite_used(database_url: str) -> bool:
     return False
 
 
-def is_local_db_used(database_url: str) -> bool:
-    if "localhost" in database_url:
-        return True
-    return False
-
-
 def _is_local_db_used(database_url: str) -> None:
     """
     local db를 사용하면 memory db 삭제
@@ -72,7 +66,7 @@ async def test_session() -> AsyncGenerator[async_scoped_session[AsyncSession], N
     connection: AsyncConnection = await engine.connect()
     transaction: AsyncTransaction = await connection.begin()
 
-    if is_sqlite_used(str(engine.url)) or is_local_db_used(str(engine.url)):
+    if is_sqlite_used(str(engine.url)):
         await connection.run_sync(Base.metadata.drop_all)
         await connection.run_sync(Base.metadata.create_all)
 
