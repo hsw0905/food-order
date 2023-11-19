@@ -1,4 +1,4 @@
-"""init user entity
+"""init user domain
 
 Revision ID: 9dceb004e01b
 Revises:

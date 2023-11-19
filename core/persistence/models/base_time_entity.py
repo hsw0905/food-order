@@ -6,7 +6,10 @@ from sqlalchemy.orm import Mapped, declared_attr, mapped_column
 
 class BaseTimeEntity:
     id = mapped_column(
-        BigInteger().with_variant(Integer, "sqlite"), primary_key=True, nullable=False
+        BigInteger().with_variant(Integer, "sqlite"),
+        primary_key=True,
+        nullable=False,
+        autoincrement=True,
     )
 
     @declared_attr

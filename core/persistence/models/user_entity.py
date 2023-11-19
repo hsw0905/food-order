@@ -1,8 +1,8 @@
 from sqlalchemy import Boolean, String
 from sqlalchemy.orm import mapped_column
 
-from app.common.entity.base_entity import Base
-from app.common.entity.base_time_entity import BaseTimeEntity
+from core.persistence.models.base_entity import Base
+from core.persistence.models.base_time_entity import BaseTimeEntity
 
 
 class User(Base, BaseTimeEntity):

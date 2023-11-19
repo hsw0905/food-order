@@ -15,8 +15,8 @@ from sqlalchemy.ext.asyncio import (
 from uvloop import Loop, new_event_loop
 
 from app import create_app
-from app.common.entity.base_entity import Base
-from core.database.sqlalchemy import engine, session
+from app.database.sqlalchemy import engine, session
+from core.persistence.models.base_entity import Base
 
 
 @pytest.fixture(scope="session")
