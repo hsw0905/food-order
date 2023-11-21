@@ -19,7 +19,7 @@ async def test_should_save_user(
     assert user is not None
     assert user.email == test_user.email
     assert user.password == test_user.password
-    assert user.status == UserStatus.PENDING
+    assert user.status == UserStatus.PENDING.value
 
 
 @pytest.mark.asyncio
