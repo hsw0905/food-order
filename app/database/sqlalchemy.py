@@ -14,7 +14,7 @@ engine: AsyncEngine = create_async_engine(
 )
 
 async_session_factory = async_sessionmaker(
-    bind=engine, autoflush=False, autocommit=False
+    bind=engine, autoflush=False, autocommit=False, expire_on_commit=False
 )
 
 session = async_scoped_session(
