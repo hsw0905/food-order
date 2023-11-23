@@ -1,6 +1,6 @@
-import bcrypt
 import inject
 
+from app.utils.password_encoder import PasswordEncoder
 from core.domains.user.exception.user_exception import DuplicatedUserException
 from core.domains.user.repository.user_repository import UserRepository
 from core.domains.user.usecase.v1.dto.user_dto import SignUpDto
@@ -17,14 +17,9 @@ class SignUpUseCase:
         if duplicated_user:
             raise DuplicatedUserException
 
-        encrypted_password = self._encrypt_password(dto.password)
-        await self._create_user(dto.email, encrypted_password)
+        hashed_password = PasswordEncoder.hash(dto.password)
+        await self._create_user(dto.email, hashed_password)
 
-    async def _create_user(self, email: str, password: str) -> None:
-        user = UserModel(email=email, password=password)
+    async def _create_user(self, email: str, hashed_password: str) -> None:
+        user = UserModel(email=email, password=hashed_password)
         await self._user_repo.save(user)
-
-    def _encrypt_password(self, password: str) -> str:
-        to_encrypt: bytes = bcrypt.hashpw(password.encode("UTF-8"), bcrypt.gensalt())
-
-        return to_encrypt.decode()
