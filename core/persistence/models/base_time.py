@@ -4,7 +4,7 @@ from sqlalchemy import BigInteger, DateTime, Integer, func
 from sqlalchemy.orm import Mapped, declared_attr, mapped_column
 
 
-class BaseTimeEntity:
+class BaseTimeModel:
     id = mapped_column(
         BigInteger().with_variant(Integer, "sqlite"),
         primary_key=True,
